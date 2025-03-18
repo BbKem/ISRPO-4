@@ -25,16 +25,17 @@ function Home() {
     }
 
     axios
-      .get(`${API_BASE_URL}/search?q=${search}`)
-      .then((response) => {
-        console.log("API Response:", response.data);
-        if (response.data && response.data.data) {
-          setTracks(response.data.data);
-        } else {
-          setTracks([]);
-        }
-      })
-      .catch((error) => console.error("Ошибка при получении треков:", error));
+    .get("/api/search?q=" + search)
+    .then((response) => {
+      console.log(response);
+      if (response.data && response.data.data) {
+        setTracks(response.data.data);
+      } else {
+        setTracks([]);
+      }
+    })
+    .catch((error) => console.error("Ошибка:", error));
+  
   }, [search]);
 
   const addToFavorites = (track: Track) => {

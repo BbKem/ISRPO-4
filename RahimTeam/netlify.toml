@@ -1,0 +1,7 @@
+[build]
+  functions = "RahimTeam/netlify/functions"
+
+[[redirects]]
+  from = "/api/search"
+  to = "/.netlify/functions/search"
+  status = 200
