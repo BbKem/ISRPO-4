@@ -3,15 +3,17 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
 interface Track {
-  id: any;
-  title: any;
+  id: number;
+  title: string;
   artist: {
-    name: any;
-    picture_big: any;
+    name: string;
+    picture_big: string;
   };
   duration: number;
   link: string;
 }
+
+const API_BASE_URL = import.meta.env.DEV ? "/api" : "https://api.deezer.com";
 
 function Details() {
   const { id } = useParams();
@@ -19,12 +21,12 @@ function Details() {
 
   useEffect(() => {
     axios
-      .get(`/api/track/${id}`) // Используем прокси
+      .get(`${API_BASE_URL}/track/${id}`)
       .then((response) => {
         console.log("API Response:", response.data);
         setTrack(response.data);
       })
-      .catch((error) => console.error("Ошибка:", error));
+      .catch((error) => console.error("Ошибка при загрузке данных о треке:", error));
   }, [id]);
 
   if (!track) return <div>Loading...</div>;

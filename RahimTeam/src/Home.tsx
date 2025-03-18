@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 import "./App.css";
 
 interface Track {
-  id: any;
-  title: any;
+  id: number;
+  title: string;
   artist: {
-    name: any;
-    picture_small: any;
+    name: string;
+    picture_small: string;
   };
 }
+
+const API_BASE_URL = import.meta.env.DEV ? "/api" : "https://api.deezer.com";
 
 function Home() {
   const [tracks, setTracks] = useState<Track[]>([]);
@@ -21,18 +23,18 @@ function Home() {
       setTracks([]);
       return;
     }
-  
+
     axios
-      .get(`/api/search?q=${search}`) 
+      .get(`${API_BASE_URL}/search?q=${search}`)
       .then((response) => {
-        console.log(response);
+        console.log("API Response:", response.data);
         if (response.data && response.data.data) {
           setTracks(response.data.data);
         } else {
           setTracks([]);
         }
       })
-      .catch((error) => console.error("Ошибка:", error));
+      .catch((error) => console.error("Ошибка при получении треков:", error));
   }, [search]);
 
   const addToFavorites = (track: Track) => {
